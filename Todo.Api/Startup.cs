@@ -6,10 +6,16 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Todo.Api.Domian.Repositories;
+using Todo.Api.Domian.Services;
+using Todo.Api.Persistence.Context;
+using Todo.Api.Persistence.Repositories;
+using Todo.Api.Services;
 
 namespace Todo.Api
 {
@@ -26,6 +32,13 @@ namespace Todo.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddDbContext<TodoDbContext>(options =>
+            {
+                options.UseInMemoryDatabase("todo-api-in-memory");
+            });
+
+            services.AddScoped<ITodoItemRespository, TodoItemRepository>();
+            services.AddScoped<ITodoItemService, TodoItemService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
