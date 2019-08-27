@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Todo.Api.Domian.Repositories;
 using Todo.Api.Domian.Services;
 using Todo.Api.Persistence.Context;
@@ -37,8 +31,12 @@ namespace Todo.Api
                 options.UseInMemoryDatabase("todo-api-in-memory");
             });
 
+
             services.AddScoped<ITodoItemRespository, TodoItemRepository>();
             services.AddScoped<ITodoItemService, TodoItemService>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddAutoMapper(typeof(Startup));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
