@@ -10,5 +10,6 @@ namespace Todo.Api.Domian.Repositories
         Task AddAsync(TodoItem todoItem);
         Task<TodoItem> FindByIdAsync(int id);
         void Update(TodoItem todoItem);
+        void Remove(TodoItem todoItem);
     }
 }

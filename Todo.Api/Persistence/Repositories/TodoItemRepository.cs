@@ -34,5 +34,10 @@ namespace Todo.Api.Persistence.Repositories
         {
             _context.TodoItems.Update(todoItem);
         }
+
+        public void Remove(TodoItem todoItem)
+        {
+            _context.TodoItems.Remove(todoItem);
+        }
     }
 }

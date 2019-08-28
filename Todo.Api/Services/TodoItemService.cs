@@ -61,7 +61,31 @@ namespace Todo.Api.Services
             catch (Exception ex)
             {
 
-                return new SaveTodoItemResponse($"An error occurred when updating the todo: {ex.Message}");
+                return new SaveTodoItemResponse($"An error occurred when updating the category: {ex.Message}");
+            }
+        }
+
+        public async Task<SaveTodoItemResponse> DeleteAsync(int id)
+        {
+            var existingTodo = await _todoItemRespository.FindByIdAsync(id);
+
+            if (existingTodo == null)
+            {
+                return new SaveTodoItemResponse("Todo not found");
+            }
+
+            try
+            {
+                _todoItemRespository.Remove(existingTodo);
+                await _unitOfWork.CompleteAsync();
+
+                return new SaveTodoItemResponse(existingTodo);
+            }
+            catch (Exception ex)
+            {
+
+                return new SaveTodoItemResponse($"An error occurred when deleting the todo: {ex.Message}");
+                ;
             }
         }
     }

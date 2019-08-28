@@ -10,5 +10,6 @@ namespace Todo.Api.Domian.Services
         Task<IEnumerable<TodoItem>> ListAsync();
         Task<SaveTodoItemResponse> SaveAsync(TodoItem todoItem);
         Task<SaveTodoItemResponse> UpdateAsync(int id, TodoItem todoItem);
+        Task<SaveTodoItemResponse> DeleteAsync(int id);
     }
 }
