@@ -24,5 +24,15 @@ namespace Todo.Api.Persistence.Repositories
         {
             await _context.TodoItems.AddAsync(todoItem);
         }
+
+        public async Task<TodoItem> FindByIdAsync(int id)
+        {
+            return await _context.TodoItems.FindAsync(id);
+        }
+
+        public void Update(TodoItem todoItem)
+        {
+            _context.TodoItems.Update(todoItem);
+        }
     }
 }

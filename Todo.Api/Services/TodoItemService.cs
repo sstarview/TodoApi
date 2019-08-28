@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Todo.Api.Domian.Models;
@@ -38,6 +37,31 @@ namespace Todo.Api.Services
             {
 
                 return new SaveTodoItemResponse($"An error occurred when saving the todo: {ex.Message}");
+            }
+        }
+
+        public async Task<SaveTodoItemResponse> UpdateAsync(int id, TodoItem todoItem)
+        {
+            var existingTodo = await _todoItemRespository.FindByIdAsync(id);
+
+            if (existingTodo == null)
+            {
+                return new SaveTodoItemResponse("Todo not found");
+            }
+
+            existingTodo.Name = todoItem.Name;
+
+            try
+            {
+                _todoItemRespository.Update(existingTodo);
+                await _unitOfWork.CompleteAsync();
+
+                return new SaveTodoItemResponse(existingTodo);
+            }
+            catch (Exception ex)
+            {
+
+                return new SaveTodoItemResponse($"An error occurred when updating the todo: {ex.Message}");
             }
         }
     }

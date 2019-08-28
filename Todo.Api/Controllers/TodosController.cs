@@ -48,6 +48,25 @@ namespace Todo.Api.Controllers
             return Ok(result.TodoItem);
         }
 
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutAsync(int id, [FromBody] SaveTodoResource resource)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState.GetErrorMessages());
+            }
+
+            var todoItem = _mapper.Map<SaveTodoResource, TodoItem>(resource);
+            var result = await _todoItemService.UpdateAsync(id, todoItem);
+
+            if (!result.Success)
+            {
+                return BadRequest(result.Message);
+            }
+
+            return Ok(result.TodoItem);
+        }
+
 
     }
 }
